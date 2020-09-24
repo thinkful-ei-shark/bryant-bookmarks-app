@@ -1,4 +1,10 @@
 
+
+let title = $("#bookmark-https").val();
+let url = $("#bookmark-title").val();
+let desc = $("#bookmark-descriptiong").val();
+let rating = $("#bookmark-rating").val();
+
 /*
 //form variables to hold html data
 //<form id= "main-form ">*/
@@ -14,11 +20,13 @@ let  mainForm =   `
 
 //<form id="create-bookmark-form">
 let createForm =      `
-                       <input type="text" id="bookmark-https" name="bookmark" value="" placeholder="add bookmark using https">
+                       <input type="text" id="bookmark-https" name="bookmark" value= "" placeholder="add bookmark using https">
                        <br>
                        <input type="text" id="bookmark-title" name="bookmark" value="" placeholder="title">
                        <br>
                        <input type="text" id="bookmark-description" name="bookmark" value="" placeholder="description">
+                       <br>
+                       <input type="text" id="bookmark-rating" name="bookmark" value="" placeholder="rating">
                        <br>
                        <input type="submit" id="create-createbutton" value="create">
                        <input type="submit" id="create-cancelbutton" value="cancel">
@@ -26,13 +34,40 @@ let createForm =      `
                        //</form>
 
 
+                       
 
+//render the page with either of the forms
 function render(page)
 {
     $("#form").html(page);
 }      
 
+//get info from api
+function getBookmarks(title,url,desc,rating)
+{
+    console.log("getting bookmarks");
+    fetch('https://thinkful-list-api.herokuapp.com/joey/bookmarks').then(resp => resp.json())
+    .then(jsonData => displayBookMarks(jsonData));
+}
 
+//display the bookmarks in the form
+function displayBookMarks(responseJson)
+{
+    console.log(responseJson);
+    // $("#form").html(response.title);
+    // $("#form").html(response.url);
+    // $("#form").html(response.desc);
+    // $("#form").html(response.rating);
+}
+
+//send data to list of bookmarks using api
+// function post(value1)//pass stuff in)
+// {
+//     fetch('https://thinkful-list-api.herokuapp.com/joey/bookmarks',)
+//   post('https://thinkful-list-api.herokuapp.com/joey/bookmarks', 
+//   { title:  value1,  url: value2 : desc, rating: rating } );
+
+// }
 //function to load create bookmark form from main form
 
 // function loadCreateBookmarkScreen()
@@ -70,6 +105,8 @@ $("#form").on("click","#new-button", function(){
     //displays the createbookmarkscreen
     //loadCreateBookmarkScreen();
 
+
+
 });
 
 //on the main form when the filter button is clicked
@@ -85,12 +122,32 @@ $("#form").on("click","#filter-button",function(){
 //checks create button on create bookmark form
 $("#form").on("click","#create-createbutton",function(){
 
-    console.log("create bookmark button is cliked");
+    console.log("This is the create bookmark screen");
     console.log("now render the \"create bookmark form\"");
 
     //loads all the info to the database/list/array
+    //do the fetch stuff here
+    //add the https, title, description, rating to list
 
     //then maybe go back to main screen
+
+    let title = $("#bookmark-https").val();
+    let url = $("#bookmark-title").val();
+    let desc = $("#bookmark-description").val();
+    let rating = $("#bookmark-rating").val();
+
+    let newbookmark ={ title, url, desc, rating};
+
+    //post fuctiong 
+    post(newbookmark);
+
+    console.log("title: ", title);
+    console.log( "url: ", url);
+    console.log( "desc: ", desc); 
+    console.log("rating: ",rating);
+
+    //post function
+    
 
   
 
@@ -143,12 +200,17 @@ $("#form").on("click","#create-cancelbutton",function(){
  function watchForm() {
      $('#form').submit(event => {
        event.preventDefault();
+
+       //will load bookmark title when the first screen is loaded
+       //let bookMarkTitle = $(jquery-title);
      });
    }
   
    $(function() {
     
      render(mainForm);
+     getBookmarks();
+     displayBookMarks();
      watchForm();
   });
 
