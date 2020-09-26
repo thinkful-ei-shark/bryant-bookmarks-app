@@ -4,7 +4,7 @@
 the app can render the starting screen
 the app can render a screen where the user will be able to create a new bookmark
 (there is a console log that shows that the data is posting).
-There are functions to retrieve the bookmarks and delete bookmarks but they have not been implimented
+There are functions to retrieve the bookmarks and delete bookmarks but they have not been implemented.
 
 
 
